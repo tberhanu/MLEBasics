@@ -507,20 +507,35 @@ class MatPlotlibBasics:
 		plt.show()
 
 
+	def foo(self):
 
+		# Create a simple plot
+		plt.plot([0, 1, 2], [0, 1, 0])
+
+		# Add text at specific coordinates
+		plt.text(0.5, 0.5, 'Hello Matplotlib!', fontsize=12, color='blue')
+
+		# Add text with alignment and a background box
+		plt.text(1.5, 0.2, 'Important Point', ha='center', va='bottom',
+		         bbox=dict(facecolor='yellow', alpha=0.5))
+
+		plt.show()
+
+	
 
 
 if __name__ == "__main__":
 	mat = MatPlotlibBasics()
-	# matplotlib.plt_function()
-	# matplotlib.plt_object()
-	# matplotlib.multiple_axes()
-	# matplotlib.zoom_in_axes()
-	# matplotlib.fig_params()
-	# matplotlib.subplots()
-	# matplotlib.legends()
-	# matplotlib.custom_linestyle()
-	mat.advanced_cmds()
+	# mat.plt_function()
+	# mat.plt_object()
+	# mat.multiple_axes()
+	# mat.zoom_in_axes()
+	# mat.fig_params()
+	# mat.subplots()
+	# mat.legends()
+	# mat.custom_linestyle()
+	# mat.advanced_cmds()
+	mat.foo()
 
 
 

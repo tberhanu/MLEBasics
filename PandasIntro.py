@@ -708,22 +708,44 @@ class PandasIntro:
 
 
 
+    def drow_symbols(self):
+        import matplotlib.pyplot as plt
+
+        # Sample data
+        x = [4, 2, 0, 6, 8, 7, 3]
+        y = [7, 9, 3, 1, 5, 0, 6]
+        z = ['⬜', '▭', '◇', '⬛', '▢', '▣', '▪']
+
+        # Create scatter plot with symbols as labels
+        fig, ax = plt.subplots()
+        ax.scatter(x, y)
+
+        # Add symbols at each point
+        for i in range(len(x)):
+            ax.text(x[i], y[i], z[i], fontsize=14, ha='center', va='center')
+
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.title('Plot of Symbols at (x, y)')
+        plt.grid(True)
+        plt.show()
 
 
 if __name__ == "__main__":
     pandas = PandasIntro()
-    pandas.dataframe00()
-    pandas.dataframe01()
-    pandas.dataframe02()
-    pandas.dataframe03()
-    pandas.dataframe04_missing_data()
-    pandas.dataframe05_groupby()
-    pandas.pandas06_concatenation()
-    pandas.pands07_text_methods()
-    pandas.pandas08_time_methods()
-    pandas.pandas09_csv()
-    pandas.pandas09_html()
-    pandas.pandas09_sql()
-    pandas.pandas09_pandas_pivot()
+    # pandas.dataframe00()
+    # pandas.dataframe01()
+    # pandas.dataframe02()
+    # pandas.dataframe03()
+    # pandas.dataframe04_missing_data()
+    # pandas.dataframe05_groupby()
+    # pandas.pandas06_concatenation()
+    # pandas.pands07_text_methods()
+    # pandas.pandas08_time_methods()
+    # pandas.pandas09_csv()
+    # pandas.pandas09_html()
+    # pandas.pandas09_sql()
+    # pandas.pandas09_pandas_pivot()
+    pandas.drow_symbols()
 
 

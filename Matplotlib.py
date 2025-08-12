@@ -353,20 +353,7 @@ class MatPlotlibBasics:
 		ax.yaxis.tick_left() # only ticks on the left side
 		plt.show()
 
-		fig, ax1 = plt.subplots()
-		ax1.plot(x, x**2, lw=2, color="blue")
-		ax1.set_ylabel(r"area $(m^2)$", fontsize=18, color="blue")
-		for label in ax1.get_yticklabels():
-		    label.set_color("blue")
-		    
-		ax2 = ax1.twinx()
-		ax2.plot(x, x**3, lw=2, color="red")
-		ax2.set_ylabel(r"volume $(m^3)$", fontsize=18, color="red")
-		for label in ax2.get_yticklabels():
-		    label.set_color("red")
-		plt.title("TWIN AXES")
-		plt.show()
-
+	
 		fig, ax = plt.subplots()
 		ax.spines['right'].set_color('none')
 		ax.spines['top'].set_color('none')
@@ -442,6 +429,7 @@ class MatPlotlibBasics:
 		alpha = 0.7
 		phi_ext = 2 * np.pi * 0.5
 
+
 		def flux_qubit_potential(phi_m, phi_p):
 		    return 2 + alpha - 2 * np.cos(phi_p) * np.cos(phi_m) - alpha * np.cos(phi_ext - 2*phi_p)
 
@@ -506,8 +494,35 @@ class MatPlotlibBasics:
 		ax.set_zlim3d(-np.pi, 2*np.pi);
 		plt.show()
 
+	def twin_plots(self):
+		x = np.arange(0,10)
 
-	def foo(self):
+		# TWIN PLOTS
+		fig, ax1 = plt.subplots(figsize=(12, 8))
+
+		ax1.spines['left'].set_color('blue')
+		ax1.spines['left'].set_linewidth(2)
+
+		ax1.spines['right'].set_color('red')
+		ax1.spines['right'].set_linewidth(2)
+
+		ax1.plot(x, x**2, lw=2, color="blue")
+		ax1.set_ylabel(r"area $(m^2)$", fontsize=18, color="blue")
+		for label in ax1.get_yticklabels():
+		    label.set_color("blue")
+		    
+		ax2 = ax1.twinx()
+
+		ax2.plot(x, x**3, lw=2, color="red")
+		ax2.set_ylabel(r"volume $(m^3)$", fontsize=18, color="red")
+		for label in ax2.get_yticklabels():
+		    label.set_color("red")
+		plt.title("TWIN AXES")
+		plt.show()
+
+
+
+	def plt_text(self):
 
 		# Create a simple plot
 		plt.plot([0, 1, 2], [0, 1, 0])
@@ -526,16 +541,17 @@ class MatPlotlibBasics:
 
 if __name__ == "__main__":
 	mat = MatPlotlibBasics()
-	# mat.plt_function()
-	# mat.plt_object()
-	# mat.multiple_axes()
-	# mat.zoom_in_axes()
-	# mat.fig_params()
-	# mat.subplots()
-	# mat.legends()
-	# mat.custom_linestyle()
-	# mat.advanced_cmds()
-	mat.foo()
+	mat.plt_function()
+	mat.plt_object()
+	mat.multiple_axes()
+	mat.zoom_in_axes()
+	mat.fig_params()
+	mat.subplots()
+	mat.legends()
+	mat.custom_linestyle()
+	mat.advanced_cmds()
+	mat.plt_text()
+	mat.twin_plots()
 
 
 

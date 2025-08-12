@@ -251,7 +251,8 @@ class SeabornPlots:
 		plt.figure(figsize=(12,6))
 		sns.boxplot(x='parental level of education',y='math score',data=self.df2,hue='gender')
 		# Optional move the legend outside
-		plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+		plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0., title="colored-title")
+		# plt.legend(loc=(1.05, 1), title="some-title") # works fine too 
 		plt.title("3. boxplot with hue='gender' and legend bbox_to_anchor")
 		plt.show()
 
@@ -469,6 +470,16 @@ class SeabornPlots:
 		plt.show()
 
 	def heat_map(self):
+		"""
+		NOTE: pass dataframe only containing numerical data, otherwise won't get the right visualization matrix
+			  If not sure about the data types, you can pass df.corr() to the heatmap as .corr() will extract
+			  only the numerical data, and pass the correlation matric to the heatmap.
+
+			  sns.heatmap(self.df3.corr())
+			  cmap='virdis' and also 'annot=True' to display the values'
+			  	>> sns.heatmap(self.df3.corr(), cmap='viridis', annot=True)
+
+		"""
 		self.df3 = self.df3.set_index('Countries')
 		print("rates after setting index to Countries: \n", self.df3)
 
@@ -521,21 +532,21 @@ class SeabornPlots:
 
 if __name__ == "__main__":
 	seabornPlots = SeabornPlots()
-	# seabornPlots.rugplot_1D()
-	# seabornPlots.displot_and_histplot()
-	# seabornPlots.kdeplot()
-	# seabornPlots.scatterplot()
-	# seabornPlots.categorical_countplot()
-	# seabornPlots.categorical_barplot()
-	# seabornPlots.categorical_boxplot()
-	# seabornPlots.categorical_violinplot()
-	# seabornPlots.categorical_swarmplot()
-	# seabornPlots.categorical_boxenplot()
-	# seabornPlots.comparison_jointplot()
-	# seabornPlots.comparison_pairplot()
-	# seabornPlots.catplot()
-	# seabornPlots.pair_grid()
-	# seabornPlots.facet_grid()
+	seabornPlots.rugplot_1D()
+	seabornPlots.displot_and_histplot()
+	seabornPlots.kdeplot()
+	seabornPlots.scatterplot()
+	seabornPlots.categorical_countplot()
+	seabornPlots.categorical_barplot()
+	seabornPlots.categorical_boxplot()
+	seabornPlots.categorical_violinplot()
+	seabornPlots.categorical_swarmplot()
+	seabornPlots.categorical_boxenplot()
+	seabornPlots.comparison_jointplot()
+	seabornPlots.comparison_pairplot()
+	seabornPlots.catplot()
+	seabornPlots.pair_grid()
+	seabornPlots.facet_grid()
 	seabornPlots.heat_map()
 
 

@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 
 class GridSearch:
 	def __init__(self):
-		self.df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Advertising.csv")
+		self.df = pd.read_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Advertising.csv")
 		self.X_train, self.X_test, self.y_train, self.y_test = None, None, None, None
 
 	def formatting_data(self):
@@ -41,8 +41,9 @@ class GridSearch:
 		                          verbose=2)
 
 		grid_model.fit(self.X_train, self.y_train) # Training on all available CV
-		print("===========================Best Estimator or Model Made: ", grid_model.best_estimator_)
-		print("===========================Best Parameters Selected: ", grid_model.best_params_)
+		optimal_model = grid_model.best_estimator_
+		optimal_params = grid_model.best_params_
+		
 		return grid_model
 
 	def predict(self, grid_model):

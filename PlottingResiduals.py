@@ -14,16 +14,16 @@ class PlottingResiduals:
 	
 
 	def quartet1(self):
-		quartet = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/anscombes_quartet/anscombes_quartet1.csv")
+		quartet = pd.read_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/anscombes_quartet/anscombes_quartet1.csv")
 		self.visualize(quartet)
 
 	def quartet2(self):
-		quartet = pd.read_csv('/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/anscombes_quartet/anscombes_quartet2.csv')
+		quartet = pd.read_csv('./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/anscombes_quartet/anscombes_quartet2.csv')
 		self.visualize(quartet)
 
 
 	def quartet4(self):
-		quartet = pd.read_csv('/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/anscombes_quartet/anscombes_quartet4.csv')
+		quartet = pd.read_csv('./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/anscombes_quartet/anscombes_quartet4.csv')
 		self.visualize(quartet)
 
 	def visualize(self, quartet):

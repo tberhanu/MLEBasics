@@ -24,27 +24,16 @@ class MissingData:
     obviously you don't want to drop a very high threshold like 50% , you should also explore correlation to the dataset, maybe it makes sense to drop the feature instead.
 
     """
-    def __init__(self, df=None, visualize=True):
-        if df:
-            self.df = df
-        else:
-            self.df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_outliers_removed.csv")
+    def __init__(self, visualize=True):
+        self.df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_outliers_removed.csv")
         self.visualize = visualize
-        print("self.visualize: ", self.visualize)
-
-    
 
     def get_data_detailed_info(self):
         with open('/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Ames_Housing_Feature_Description.txt','r') as f: 
             print(f.read())
 
     def percent_missing(self):
-        print("---------- Observing NaN Features ------------")
-        # print(self.df.isnull())
-        # print(f"Total Sum of NaN: {self.df.isnull().sum()}")
-        # print(f"Percentage of NaN: {100* self.df.isnull().sum() / len(self.df)}")
         percent_nan = 100* self.df.isnull().sum() / len(self.df) # type(percent_nan) is Pandas Series
-        # print("***** percent nan type: is ", type(percent_nan))
         percent_nan = percent_nan[percent_nan>0].sort_values()
 
         return percent_nan
@@ -55,20 +44,16 @@ class MissingData:
             self.visualize_barplot(plt_title, ylim_percentage)
 
            
-        print("**** Let's see rows with such NaN values: ")
-        print("Total Bsmt SF: ", self.df[self.df['Total Bsmt SF'].isnull()])
-        print("Bsmt Half Bath: ", self.df[self.df['Bsmt Half Bath'].isnull()])
+        # Let's see rows with such NaN values
+        null1 = self.df[self.df['Total Bsmt SF'].isnull()]
+        null2 = self.df[self.df['Bsmt Half Bath'].isnull()]
 
         bsmt_num_cols = ['BsmtFin SF 1', 'BsmtFin SF 2', 'Bsmt Unf SF','Total Bsmt SF', 'Bsmt Full Bath', 'Bsmt Half Bath']
         bsmt_num_cols_types = [self.df.dtypes[col] for col in bsmt_num_cols]
-        print("***float64*** as they are Numbers, so we may fill them with 0: ", bsmt_num_cols_types)
-        print("Filling NaNs with 0:")
         self.df[bsmt_num_cols] = self.df[bsmt_num_cols].fillna(0)
 
         bsmt_str_cols =  ['Bsmt Qual', 'Bsmt Cond', 'Bsmt Exposure', 'BsmtFin Type 1', 'BsmtFin Type 2']
         bsmt_str_cols_types = [self.df.dtypes[col] for col in bsmt_str_cols]
-        print("***O*** for Object as Pandas used the NumPy object dtype as the default for storing text data, so we may fill them with 'None' : ", bsmt_str_cols_types)
-        print("Filling NaN with 'None'")
         self.df[bsmt_str_cols] = self.df[bsmt_str_cols].fillna('None')
 
         if self.visualize:
@@ -118,19 +103,19 @@ class MissingData:
         Now we will take an approach based on the column features themselves, since larger percentages of the data appears to be missing.
 
         """
-        print("Garage related features: ", self.df[['Garage Type', 'Garage Finish', 'Garage Qual', 'Garage Cond']])
+        garage_related_features = self.df[['Garage Type', 'Garage Finish', 'Garage Qual', 'Garage Cond']]
 
         gar_str_cols = ['Garage Type', 'Garage Finish', 'Garage Qual', 'Garage Cond']
         self.df[gar_str_cols] = self.df[gar_str_cols].fillna('None')
 
-        print("============================Checking Data Types of 'Garage Yr Blt': \n", self.df['Garage Yr Blt'].value_counts())
+        valueCounts = self.df['Garage Yr Blt'].value_counts()
         self.df['Garage Yr Blt'] = self.df['Garage Yr Blt'].fillna(0)
         if self.visualize:
             plt_title = "5. After fillna for no garage"
             self.visualize_barplot(plt_title)
 
     def removing_features(self):
-        print("These are the columns to be removed: ", self.df[['Lot Frontage', 'Fireplace Qu', 'Fence', 'Alley', 'Misc Feature','Pool QC']])
+        subset_df = self.df[['Lot Frontage', 'Fireplace Qu', 'Fence', 'Alley', 'Misc Feature','Pool QC']]
 
         self.df = self.df.drop(['Pool QC','Misc Feature','Alley','Fence'],axis=1)
         if self.visualize:
@@ -138,7 +123,7 @@ class MissingData:
             self.visualize_barplot(plt_title)
 
     def fillna_fireplace_qu(self):
-        print("============================Checking Data Types of 'Fireplace Qu': \n", self.df['Fireplace Qu'].value_counts())
+        valueCounts = self.df['Fireplace Qu'].value_counts()
         self.df['Fireplace Qu'] = self.df['Fireplace Qu'].fillna("None")
         if self.visualize:
             plt_title = "7. After fillna 'Fireplace Qu'"
@@ -150,19 +135,16 @@ class MissingData:
         is correlated with the missing feature data. 
         In this particular case we will use:
 
-            Neighborhood: Physical locations within Ames city limits
-
-            LotFrontage: Linear feet of street connected to property
+            'Neighborhood': Physical locations within Ames city limits
+            'LotFrontage': Linear feet of street connected to property
 
         We will operate under the assumption that the Lot Frontage is related to what neighborhood a house is in.
 
         """
-        print("============================Checking Data Types of 'Lot Frontage': \n", self.df['Lot Frontage'])
-        print("============================Displaying HEAD of 'Lot Frontage': \n", self.df.head()['Lot Frontage'])
 
-        print("List of 'Neighborhood' unique values: \n", self.df['Neighborhood'].unique())
-        print("Checking NaN values for 'Lot Frontage': \n", self.df[self.df['Lot Frontage'].isnull()])
-        print("Checking NaN values for 'Neighborhood which is EMPTY DATAFRAME': \n", self.df[self.df['Neighborhood'].isnull()])
+        nei_unique_values = self.df['Neighborhood'].unique()
+        isNull =  self.df[self.df['Lot Frontage'].isnull()]
+        isNull2 = self.df[self.df['Neighborhood'].isnull()]
 
         if self.visualize:
             # BOXPLOT TO ANALYZE IF 'Neighborhood' and 'Lot Frontage' are related.
@@ -171,8 +153,8 @@ class MissingData:
 
         # Roughly, with some domain knowledge, let's assume we noticed there is a relationship,
         # and if we miss the 'Lot Frontage', then we can fill it up with the average value of 'Lot Frontage' at that 'Neighborhood'
-        print("'Lot Frontage' values after being grouped by 'Neighborhood': \n", self.df.groupby('Neighborhood')['Lot Frontage'])
-        print("Mean of 'Lot Frontage' values after being grouped by 'Neighborhood': \n", self.df.groupby('Neighborhood')['Lot Frontage'].mean()) # notice that some are NaN
+        lotFrontage_of_nei = self.df.groupby('Neighborhood')['Lot Frontage']
+        lotFrontage_of_nei_mean = self.df.groupby('Neighborhood')['Lot Frontage'].mean() # notice that some are NaN
         
         self.df['Lot Frontage'] = self.df.groupby('Neighborhood')['Lot Frontage'].transform(lambda val: val.fillna(val.mean()))
         if self.visualize:
@@ -181,13 +163,10 @@ class MissingData:
 
         # We still have few NaN values for 'Lot Frontage' because some 'Neighborhood' mean value of 'Lot Frontage' is also NaN, so need to take care of that too.
         # For example 'GrnHill' and 'Landmrk' neighborhood have NaN for Lot Frontage Mean because their Lot Frontage is NaN as seen below'
-        print("'GrnHill' and 'Landmrk' Neighborhood with NaN 'Lot Frontage' which we will fillna(0): \n", self.df[(self.df['Neighborhood'] == 'GrnHill') | (self.df['Neighborhood'] == 'Landmrk')])
-        print("Filling the left over NaN values of 'Lot Frontage' with 0")
+        GrnHill_Landmrk = self.df[(self.df['Neighborhood'] == 'GrnHill') | (self.df['Neighborhood'] == 'Landmrk')]
         self.df['Lot Frontage'] = self.df['Lot Frontage'].fillna(0)
         missing_counts = self.df.isnull().sum()
-        print("We expect Zero Missing Counts or NaN values for all the features as seen below: \n", missing_counts)
         percent_nan = self.percent_missing()
-        print("Empty Pandas Series to confirm the No Missing Counts: percent_nan is: ", percent_nan)
         try:
             self.visualize_barplot("10. Empty Space because No NaNs!!!")
         except Exception as e:
@@ -196,14 +175,14 @@ class MissingData:
             print("No Exception Raised.")
         finally:
             print("Anyways, let's save our work, regardless of NaN leftover presence or not.")
-            self.df.to_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_NO_Missing_Data.csv",index=False)
+            self.df.to_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_NO_Missing_Data.csv",index=False)
 
 
 
 
 
 if __name__ == "__main__":
-    missingData = MissingData(None, False) # visualize=True
+    missingData = MissingData(False) # visualize=True
     missingData.set_missing_threshold_and_fillna_rows(1)
     missingData.dropna_rows()
     missingData.fillna_mas_vnr_feature()

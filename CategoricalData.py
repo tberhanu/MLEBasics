@@ -7,28 +7,19 @@ import seaborn as sns
 class CategoricalData:
 	def __init__(self):
 		self.df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_NO_Missing_Data.csv")
-		#print(self.df.info())
 
 	def convert_to_string(self, feature_name):
-		print(f"======dtypes of '{feature_name}' before converting to str: \n", self.df.dtypes[feature_name])
+		type1 = self.df.dtypes[feature_name]
 		self.df[feature_name] = self.df[feature_name].apply(str)
-		print(f"======dtypes of '{feature_name}' after converting to str: \n", self.df.dtypes[feature_name])
+		type2 = self.df.dtypes[feature_name]
 
 	def create_dummy_variables(self):
 		df_nums = self.df.select_dtypes(exclude='object')
-		print("===================================NUMBERS: \n")
-		print(df_nums.info())
 		df_objs = self.df.select_dtypes(include='object')
-		print("===================================OBJECTS/STRINGS: \n")
-		print(df_objs.info())
 
 		# creating dummy variables for Object/String Data Types
 		df_objs = pd.get_dummies(df_objs,drop_first=True)
-
 		final_df = pd.concat([df_nums,df_objs],axis=1)
-		print("===================================Final DF: \n")
-		print(final_df)
-		print("===================================Final DF Shape: ", final_df.shape)
 
 		return final_df
 
@@ -44,11 +35,8 @@ class CategoricalData:
 		"""
 
 		final_df = self.create_dummy_variables()
-		print("Correlation Values with 'SalePrice': \n", final_df.corr()['SalePrice'].sort_values())
-		print("Clearly 'Overall Qual' has significant impact on the 'SalePrice'")
-
-		print("Saving the final_df: ")
-		final_df.to_csv('/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/AMES_Final_DF.csv')
+		correlation = final_df.corr()['SalePrice'].sort_values() # Correlation Values with 'SalePrice
+		final_df.to_csv('./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/AMES_Final_DF.csv')
 
 
 

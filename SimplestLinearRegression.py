@@ -14,20 +14,16 @@ class SimpleOperations:
 		self.df = df
 
 	def display_data_head(self):
-		print("calling display_data_head")
 		print(self.df.head)
 
 	def add_total_spend_feature(self):
-		print("calling add_total_spend_feature")
 		self.df['total_spend'] = self.df['TV'] + self.df['radio'] + self.df['newspaper']
 
 	def visualize_corr_scatterplot(self, feature1='total_spend', feature2='sales'):
-		print("calling visualize_corr_scatterplot")
 		sns.scatterplot(x=feature1, y=feature2, data=self.df)
 		plt.show()
 
 	def visualize_corr_regplot(self, feature1='total_spend', feature2='sales'):
-		print("calling visualize_corr_regplot")
 		sns.regplot(x=feature1, y=feature2, data=self.df)
 		plt.show()
 
@@ -51,14 +47,12 @@ class SimplestLinearRegression:
 
 	def get_coefficients(self, degree=1):
 		self.coefficients = np.polyfit(self.X, self.y, degree) # training the model
-		print(f"coefficients: {self.coefficients}")
 		return self.coefficients
 
 	def predict_sales(self, total_spend, degree):
 		coefficients = self.get_coefficients(degree)
 		# predicted_sales =  0.04868788*potential_spend + 4.24302822  manually calculating via coefficients
 		predicted_sales = np.polyval(coefficients, total_spend) # trained model predicting
-		print(f"predicted_sales={predicted_sales}")
 		return predicted_sales
 
 
@@ -70,7 +64,7 @@ class SimplestLinearRegression:
 
 	def plot_feature_to_label(self, df):
 		fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(16,6))
-		print("Plotting each feature versus the Sales")
+		# Plotting each feature versus the Sales
 		axes[0].plot(df['TV'], df['sales'],'o')
 		axes[0].set_ylabel("Sales")
 		axes[0].set_title("TV Spend")
@@ -88,7 +82,6 @@ class SimplestLinearRegression:
 
 	def plot_feature_cross_relationships(self, df):
 		# Relationships between features
-		print("Plotting Relationships between features, sns.pairplot()")
 		sns.pairplot(df,diag_kind='kde')
 		plt.show()
 
@@ -107,40 +100,32 @@ class MyLinearRegression:
 
 
 	def _dataset_label_extraction(self, label):
-		print("Calling _dataset_label_extraction()")
 		X = df.drop(label, axis=1)
 		y = df[label]
 		return X, y
 	
 	def train_test_split(self, test_size, random_state):
-		print("Calling train_test_split()")
 		if self.X.empty or self.y.empty:
 			print("Missed either Dataset or Label.")
 		self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=test_size, random_state=random_state)
 
 	def train(self):
-		print("TRAINING TIME: Calling train().")
 		self.reg_model.fit(self.X_train, self.y_train)
 
 	def predict(self):
-		print("Calling predict()")
 		if self.X_test.empty:
 			print("No Test Data Available.")
 			return
 		test_predictions = self.reg_model.predict(self.X_test)
-		print(f"test_predictions={test_predictions}")
 		return test_predictions
 
 	def evaluate(self, test_predictions):
-		print("Calling evaluate()")
 		MAE = mean_absolute_error(self.y_test,test_predictions)
 		MSE = mean_squared_error(self.y_test,test_predictions)
 		RMSE = np.sqrt(MSE)
-		print(f"MAE={MAE}, MSE={MSE}, RMSE={RMSE}")
-		print(f"Average of Sales: ", df['sales'].mean())
-
+	
 	def train_final_model(self, isPlotted=False):
-		print("==== Once we are satisfied on our model performance, need to train with ALL data for production ======")
+		# Once we are satisfied on our model performance, need to train with ALL data for production
 		self.final_model.fit(self.X, self.y)
 		y_hat = self.final_model.predict(self.X)
 		if isPlotted:
@@ -163,12 +148,12 @@ class MyLinearRegression:
 			plt.show()
 
 	def saving_final_model(self):
-		print("Dumping our final model. ")
-		dump(self.final_model, '/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/sales_model.joblib')
+		# Dumping our final model
+		dump(self.final_model, './UNZIP_FOR_NOTEBOOKS_FINAL/DATA/sales_model.joblib')
 
 	def loading_and_predict(self):
-		print("Loading our persisted final model, and make the prediction.")
-		loaded_model = load('/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/sales_model.joblib')
+		# Loading our persisted final model, and make the prediction
+		loaded_model = load('./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/sales_model.joblib')
 		campaign = [[149,22,12]]
 		loaded_model.predict(campaign)
 
@@ -191,7 +176,7 @@ class MyLinearRegression:
 
 
 if __name__ == "__main__":
-	df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Advertising.csv")
+	df = pd.read_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Advertising.csv")
 	############# Just Simple Operations ##############
 	op = SimpleOperations(df)
 	op.display_data_head()

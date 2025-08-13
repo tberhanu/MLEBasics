@@ -7,14 +7,12 @@ import seaborn as sns
 
 
 
-
 class Outliers:
 	def __init__(self):
 		pass
 
 	def generate_data(self):
 		data = self.create_ages(50, 13, 100, 42)
-		# print("Generated Data: ", data)
 		return data
 
 	# Choose a mean,standard deviation, and number of samples
@@ -31,7 +29,7 @@ class Outliers:
 
 	def visualize_distribution_and_outliers(self, sample_data):
 		series = pd.Series(sample_data)
-		print("Some Statistics: ", series.describe())
+		statistics = series.describe()
 
 		d = sns.displot(sample_data, bins=10, kde=False)
 		d.fig.suptitle("sns.displot(sample_data, bins=10, kde=False)")
@@ -43,17 +41,8 @@ class Outliers:
 		plt.show()
 
 	def ames_dataset(self):
-		df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Ames_Housing_Data.csv")
-		print(df.head())
-		print("Shape: ", df.shape)
-		print("2D relationship between features: ")
+		df = pd.read_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Ames_Housing_Data.csv")
 		
-		# sns.heatmap(df.corr())
-		# plt.show()
-
-		# features_corr_with_SalePrice = df.corr()['SalePrice'].sort_values()
-		# print("features_corr_with_SalePrice: ", features_corr_with_SalePrice)
-		print("Plotting 1")
 		d1 = sns.displot(df["SalePrice"]) # 1
 		d1.fig.suptitle("sns.distplot(df['SalePrice'])")
 		plt.show()
@@ -69,31 +58,25 @@ class Outliers:
 		plt.show()
 
 		############### Retrieving Outlier Rows ###############################
-		print("Potential Outliers: ", df[(df['Gr Liv Area']>4000) & (df['SalePrice']<400000)])
 		ind_drop = df[(df['Gr Liv Area']>4000) & (df['SalePrice']<400000)].index
-		print("Potential Outliers Indices which may need to be dropped")
 		############### Dropping Outlier Rows ###############################
 		df = df.drop(ind_drop,axis=0)
-		print("df after dropping potential outlier indices: ", df)
 
-		print("Plotting 4: After Dropping Outlier Rows")
 		ax = sns.scatterplot(x='Gr Liv Area',y='SalePrice',data=df) # 4 
 		ax.set_title("sns.scatterplot(x='Gr Liv Area',y='SalePrice',data=df)")
 		plt.show()
 
-		print("Plotting 5: After Dropping Outlier Rows")
 		ax2 = sns.scatterplot(x='Overall Qual',y='SalePrice',data=df) # 5
 		ax2.set_title("sns.scatterplot(x='Overall Qual',y='SalePrice',data=df")
 		plt.show()
 
-		df.to_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_outliers_removed.csv",index=False)
-		print("After dropping potential outliers, data saved to ALTERED folder.")
+		df.to_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_outliers_removed.csv",index=False)
 
 
 
 if __name__ == "__main__":
 	outliers = Outliers()
-	# outliers.generate_data()
-	# sample_data = outliers.create_ages(mu=50,sigma=13,num_samples=100,seed=42)
-	# outliers.visualize_distribution_and_outliers(sample_data)
+	outliers.generate_data()
+	sample_data = outliers.create_ages(mu=50,sigma=13,num_samples=100,seed=42)
+	outliers.visualize_distribution_and_outliers(sample_data)
 	outliers.ames_dataset()

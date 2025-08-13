@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 class Tools:
 	def __init__(self):
 		self.df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/hearing_test.csv")
-		#print(self.df.head())
 
 	def exploratory_data_analysis(self):
 
@@ -93,34 +92,34 @@ class Tools:
 
 if __name__ == "__main__":
 	tools = Tools()
-	# tools.exploratory_data_analysis()
+	tools.exploratory_data_analysis()
 
-	# feature, plt_title = "test_result", "1. sns.countplot"
-	# tools.countplot(feature, plt_title)
+	feature, plt_title = "test_result", "1. sns.countplot"
+	tools.countplot(feature, plt_title)
 
-	# feature1, feature2, plt_title = "test_result", "age", "2. sns.boxplot"
-	# tools.boxplot(feature1, feature2, plt_title)
+	feature1, feature2, plt_title = "test_result", "age", "2. sns.boxplot"
+	tools.boxplot(feature1, feature2, plt_title)
 
-	# feature1, feature2, plt_title = "test_result", "physical_score", "3. sns.boxplot"
-	# tools.boxplot(feature1,feature2, plt_title)
+	feature1, feature2, plt_title = "test_result", "physical_score", "3. sns.boxplot"
+	tools.boxplot(feature1,feature2, plt_title)
 
-	# feature1, feature2, plt_title, hue_feature3 = "age", "physical_score", "4. sns.scatterplot", "test_result"
-	# tools.scatterplot(feature1, feature2, plt_title, hue_feature3)
+	feature1, feature2, plt_title, hue_feature3 = "age", "physical_score", "4. sns.scatterplot", "test_result"
+	tools.scatterplot(feature1, feature2, plt_title, hue_feature3)
 
-	# feature1, feature2, plt_title = "physical_score", "test_result","5. sns.scatterplot"
-	# tools.scatterplot(feature1,feature2, plt_title)
+	feature1, feature2, plt_title = "physical_score", "test_result","5. sns.scatterplot"
+	tools.scatterplot(feature1,feature2, plt_title)
 
-	# feature1, feature2, plt_title = "age", "test_result", "6. sns.scatterplot"
-	# tools.scatterplot(feature1, feature2, plt_title)
+	feature1, feature2, plt_title = "age", "test_result", "6. sns.scatterplot"
+	tools.scatterplot(feature1, feature2, plt_title)
 
-	# plt_title, hue_feature = "7. sns.pairplot", "test_result"
-	# tools.pairplot(plt_title, hue_feature)
+	plt_title, hue_feature = "7. sns.pairplot", "test_result"
+	tools.pairplot(plt_title, hue_feature)
 
-	# plt_title = "8. sns.heatmap corr"
-	# tools.heatmap_corr(plt_title)
+	plt_title = "8. sns.heatmap corr"
+	tools.heatmap_corr(plt_title)
 
 	tools.scatter_3d()
-	#tools.scatter_plot_3d_4d()
+	tools.scatter_plot_3d_4d()
 
 
 

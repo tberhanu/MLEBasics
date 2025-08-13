@@ -22,40 +22,32 @@ class MyLinearRegression:
 
 
 	def _dataset_label_extraction(self, label):
-		print("Calling _dataset_label_extraction()")
 		X = df.drop(label, axis=1)
 		y = df[label]
 		return X, y
 	
 	def train_test_split(self, test_size, random_state):
-		print("Calling train_test_split()")
 		if self.X.empty or self.y.empty:
 			print("Missed either Dataset or Label.")
 		self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=test_size, random_state=random_state)
 
 	def train(self):
-		print("TRAINING TIME: Calling train().")
 		self.reg_model.fit(self.X_train, self.y_train)
 
 	def predict(self):
-		print("Calling predict()")
 		if self.X_test.empty:
 			print("No Test Data Available.")
 			return
 		test_predictions = self.reg_model.predict(self.X_test)
-		print(f"test_predictions={test_predictions}")
 		return test_predictions
 
 	def evaluate(self, test_predictions):
-		print("Calling evaluate()")
 		MAE = mean_absolute_error(self.y_test,test_predictions)
 		MSE = mean_squared_error(self.y_test,test_predictions)
 		RMSE = np.sqrt(MSE)
-		print(f"MAE={MAE}, MSE={MSE}, RMSE={RMSE}")
-		print(f"Average of Sales: ", df['sales'].mean())
 
 	def train_final_model(self, isPlotted=False):
-		print("==== Once we are satisfied on our model performance, need to train with ALL data for production ======")
+		# Once we are satisfied on our model performance, need to train with ALL data for production.
 		self.final_model.fit(self.X, self.y)
 		y_hat = self.final_model.predict(self.X)
 		if isPlotted:
@@ -78,24 +70,19 @@ class MyLinearRegression:
 			plt.show()
 
 	def saving_final_model(self):
-		print("Dumping our final model. ")
-		dump(self.final_model, '/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/MODELS/sales_model.joblib')
+		# Dumping our final model
+		dump(self.final_model, './UNZIP_FOR_NOTEBOOKS_FINAL/MODELS/sales_model.joblib')
 
 	def loading_and_predict(self):
-		print("Loading our persisted final model, and make the prediction.")
-		loaded_model = load('/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/MODELS/sales_model.joblib')
-		print("Shape: ", self.X.shape)
+		# Loading our persisted final model, and make the prediction
+		loaded_model = load('./UNZIP_FOR_NOTEBOOKS_FINAL/MODELS/sales_model.joblib')
 		campaign = [[149,22,12]]
 		prediction = loaded_model.predict(campaign)
-		print(f"Prediction: {prediction}")
 
 
 
 if __name__ == "__main__":
-	df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Advertising.csv")
-
-
-	############ Scikit Learn Linear Regression ####################
+	df = pd.read_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Advertising.csv")
 	myLinearRegression = MyLinearRegression(df)
 	myLinearRegression.train_test_split(0.3, 101)
 	myLinearRegression.train()

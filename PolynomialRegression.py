@@ -26,14 +26,9 @@ class MyPolynomialRegression:
 		polynomial_converter = PolynomialFeatures(degree=degree,include_bias=False)
 
 		poly_features = polynomial_converter.fit_transform(self.X)
+		row_col = poly_features.shape
+		x_shape = self.X.shape
 
-		print(f"Poly Features Shape: {poly_features.shape}")
-
-		print(f"X shape: {self.X.shape}")
-
-		print(f"First Row of Dataframe X, X.iloc[0]: {self.X.iloc[0]}")
-
-		print(f"First Row of Poly Features: {poly_features[0]}")
 		return poly_features
 
 	def poly_features_and_train_test_split(self, degree=2):
@@ -53,8 +48,6 @@ class MyPolynomialRegression:
 		MAE = mean_absolute_error(self.y_test,test_predictions)
 		MSE = mean_squared_error(self.y_test,test_predictions)
 		RMSE = np.sqrt(MSE)
-		print(f"MAE, MSE, and RMSE: {MAE}, {MSE}, {RMSE}")
-
 
 	def getting_optimal_degree(self):
 
@@ -138,7 +131,6 @@ class MyPolynomialRegression:
 		campaign = [[149,22,12]]
 		campaign_poly = loaded_poly.transform(campaign)
 		prediction = loaded_model.predict(campaign_poly)
-		print(f"Prediction: {prediction}")
 
 
 

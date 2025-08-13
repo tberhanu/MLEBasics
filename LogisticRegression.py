@@ -8,18 +8,16 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix,classification_report
 from sklearn.metrics import PrecisionRecallDisplay, precision_recall_curve, RocCurveDisplay
 from sklearn.model_selection import GridSearchCV
-from tools import Tools 
 from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
 from sklearn.metrics import roc_curve, auc
 from sklearn.multiclass import OneVsRestClassifier
 from mpl_toolkits.mplot3d import Axes3D 
 
+
 class BinaryClassLogisticRegression:
     def __init__(self, visualize=True):
+        self.df = pd.read_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/hearing_test.csv")
         self.visualize = visualize
-        myTools = Tools()
-        self.df = myTools.df 
-        print(self.df.head())
         self.data_preparation()
 
     def data_preparation(self):
@@ -36,7 +34,9 @@ class BinaryClassLogisticRegression:
         log_model = LogisticRegression()
         log_model.fit(self.scaled_X_train, self.y_train)
 
-        print("Logistic Model Coefficients: ", log_model.coef_)
+        coefficents = log_model.coef_
+
+
         # Here, we get Coefficients:  [[-0.95017725  3.46148946]] which means AGE and PHYSICAL_SCORE is +vely and -vely correlated respectively with 'test_result'
         # and we also see that PHYSICAL_SCORE (coeff of 3.46148946) has much greater influence compared to the AGE feature on the 'test_result'
         # Let's try to confirm this via BOX PLOTTING
@@ -66,21 +66,17 @@ class BinaryClassLogisticRegression:
         log_model = self.train_model()
 
         y_pred = log_model.predict(self.scaled_X_test) # gives 0's and 1's for 'test_result'
-        print("======y_pred: \n", y_pred[:5])
         y_pred_prob = log_model.predict_proba(self.scaled_X_test) # gives the actual probabilities [[prob(0), prob(1)], [prob(0), prob(1)], ....]
-        print("======y_pred_prob: \n", y_pred_prob[:5])
 
         accuracyScore = accuracy_score(self.y_test, y_pred)
         precisionScore = precision_score(self.y_test, y_pred)
         recallScore = recall_score(self.y_test, y_pred)
 
-        print("======(Accuracy Score, precision_score, recall_score)= ", (accuracyScore, precisionScore, recallScore))
-        print(f"Just using the person's AGE and PHYSICAL_SCORE, I can predict whether that person will pass or fail the HEARING TEST with {accuracyScore} percentage accuracy.")
-        print("======Confusion Matrix: \n", confusion_matrix(self.y_test, y_pred)) # Note: There is a better way down via ConfusionMatrixDisplay.
-        # plot_confusion_matrix(log_model, self.scaled_X_test, self.y_test)
+        confusionMatrix = confusion_matrix(self.y_test, y_pred)
+        classificationReport = classification_report(self.y_test, y_pred)
+
 
         if self.visualize:
-            # plot_confusion_matrix(log_model, self.scaled_X_test, self.y_test,normalize='true') #DEPRECATED
             display1 = ConfusionMatrixDisplay.from_estimator(log_model, self.scaled_X_test, self.y_test) # without Normalizing
             display1.plot()
             plt.title("ConfusionMatrixDisplay RawData")
@@ -101,17 +97,12 @@ class BinaryClassLogisticRegression:
             """
 
 
-
-        print("======Classification Report: \n", classification_report(self.y_test, y_pred))
-
-        if self.visualize or True:
-            # plot_precision_recall_curve(log_model, self.scaled_X_test, self.y_test) #DEPRECATED
+        if self.visualize:
             disp = PrecisionRecallDisplay.from_estimator(log_model, self.scaled_X_test, self.y_test, name="Logistic Regression")
             disp.plot()
             plt.title("PrecisionRecallDisplay")
             plt.show()
 
-            # plot_roc_curve(log_model, self.scaled_X_test, self.y_test) #DEPRECATED
             # AUC=Area Under the Curve, ROC=Receiver Operator Characteristic
             disp = RocCurveDisplay.from_estimator(log_model, self.scaled_X_test, self.y_test, name="Logistic Regression: ROC Curve")
             disp.plot()
@@ -123,17 +114,11 @@ class BinaryClassLogisticRegression:
 class MultiClassLogisticRegression:
     def __init__(self):
         self.df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/iris.csv")
-        
-        
-
-    def data_info(self):
-        print("Sample Data: \n", self.df.head())
-        print("Feature or Column Names: \n", self.df.info())
-        print("Feature or Column Statistical Summary: \n", self.df.describe())
-        print("List of unique values for our label 'species': ", self.df['species'].unique())
-        print("Checking our label values: \n", self.df['species'].value_counts())
 
     def data_visualization(self):
+        unique_species = self.df['species'].unique()
+        species_value_counts = self.df['species'].value_counts()
+
         sns.countplot(self.df['species'])
         plt.title("sns.countplot 'species'")
         plt.show()
@@ -203,12 +188,18 @@ class MultiClassLogisticRegression:
 
         grid_model.fit(scaled_X_train, y_train)
 
-        print("Optimal Best Parameters: ",  grid_model.best_params_)
+        best_params = grid_model.best_params_
+
+        # print("Optimal Best Parameters: ",  grid_model.best_params_)
 
         y_pred = grid_model.predict(scaled_X_test)
 
-        print("Accuracy Score: ", accuracy_score(y_test,y_pred))
-        print("Confusion Matrix: \n", confusion_matrix(y_test,y_pred))
+        accuracyScore = accuracy_score(y_test,y_pred)
+        confusionMatrix = confusion_matrix(y_test,y_pred)
+        classificationReport = classification_report(y_test,y_pred)
+
+        # print("Accuracy Score: ", accuracy_score(y_test,y_pred))
+        # print("Confusion Matrix: \n", confusion_matrix(y_test,y_pred))
 
         # plot_confusion_matrix(grid_model,scaled_X_test,y_test) #DEPRECATED
         # plot_confusion_matrix(log_model, self.scaled_X_test, self.y_test,normalize='true') #DEPRECATED
@@ -223,9 +214,7 @@ class MultiClassLogisticRegression:
         plt.show()
 
 
-        print("Classification Report: \n", classification_report(y_test,y_pred))
-
-        print("=============== plot_multiclass_roc, Receiver Operating Characteristic Curve for Multi Classification ===============")
+        print("ROC: plot_multiclass_roc, Receiver Operating Characteristic Curve for Multi Classification")
         multiLogReg.plot_multiclass_roc(grid_model, scaled_X_test, y_test, n_classes=3, figsize=(16, 10))
 
 
@@ -264,7 +253,6 @@ if __name__ == "__main__":
     binaryLogReg.classification_performance_metrics()
 
     multiLogReg = MultiClassLogisticRegression()
-    multiLogReg.data_info()
     multiLogReg.data_visualization()
     multiLogReg.data_prep_and_train_model()
 

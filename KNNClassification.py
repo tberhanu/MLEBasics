@@ -114,6 +114,8 @@ class KNNClassificatioin:
 
 		# k_values = list(range(1,20))
 		k_values = list(range(k_start, k_end))
+		total_runs = len(k_values)
+
 		param_grid = {'knn__n_neighbors': k_values} # attention to the naming convention
 		# chosen_string_name + two underscores + param_key from 'param_keys' => 'knn__n_neighbors'
 
@@ -129,9 +131,23 @@ class KNNClassificatioin:
 		optimal_pipeline_params = full_cv_classifier.best_estimator_.get_params() # for both 'scaler' and 'knn' in pipeline
 
 		cv_results_keys = full_cv_classifier.cv_results_.keys()
-		total_runs = len(k_values)
-
+		cv_results_keys_df = pd.DataFrame(full_cv_classifier.cv_results_)
 		each_run_test_score = full_cv_classifier.cv_results_['mean_test_score']
+
+		# Pandas df plotting
+		cv_results_keys_df['mean_test_score'].plot() # Accuracy Plot for all K's, not loss plot
+		plt.title("pandas df Accuracy plot")
+		plt.xlabel("k values")
+		plt.ylabel("mean test score")
+		plt.show()
+
+		# the formal way to plot the above
+		plt.plot(k_values, full_cv_classifier.cv_results_['mean_test_score'])
+		plt.title("matplotlib Accuracy plot")
+		plt.xlabel("k values")
+		plt.ylabel("mean test score")
+		plt.show()
+
 
 		return full_cv_classifier
 
@@ -174,7 +190,6 @@ class KNNClassificatioin:
 		single_prediction2 = pipe.predict(new_patient)
 		single_probability2 = pipe.predict_proba(new_patient)
 
-		import pdb; pdb.set_trace()
 		print("done.")
 
 	

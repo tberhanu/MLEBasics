@@ -11,8 +11,7 @@ from joblib import dump, load
 
 class MyPolynomialRegression:
 	def __init__(self):
-		self.df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Advertising.csv")
-		print("DF Head: ", self.df.head())
+		self.df = pd.read_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/Advertising.csv")
 
 		self.X = self.df.drop('sales',axis=1)
 		self.y = self.df['sales']

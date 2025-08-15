@@ -10,6 +10,10 @@ class PandasIntro:
         pass
 
     def pandas_basics(self):
+        # df.columns, df.corr(), df.corr()['col_name']
+        # df['col_name'].value_counts()
+        # df['col_name'].sort_values()
+        # df.plot(), df.plot(kind='bar')
         # dtypes, info, describe, transpose, type, len, head, tail
         np.random.seed(101)
         mydata = np.random.randint(0,101,(4,3))

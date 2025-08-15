@@ -520,6 +520,8 @@ class SeabornPlots:
 		plt.show()
 
 		sns.clustermap(rates,col_cluster=False,figsize=(12,8),cbar_pos=(-0.1, .2, .03, .4))
+		plt.title("clustermap with col_cluster=False, figsize, cbar_pos")
+
 		plt.show()
 
 
@@ -532,21 +534,21 @@ class SeabornPlots:
 
 if __name__ == "__main__":
 	seabornPlots = SeabornPlots()
-	seabornPlots.rugplot_1D()
-	seabornPlots.displot_and_histplot()
-	seabornPlots.kdeplot()
-	seabornPlots.scatterplot()
-	seabornPlots.categorical_countplot()
-	seabornPlots.categorical_barplot()
-	seabornPlots.categorical_boxplot()
-	seabornPlots.categorical_violinplot()
-	seabornPlots.categorical_swarmplot()
-	seabornPlots.categorical_boxenplot()
-	seabornPlots.comparison_jointplot()
-	seabornPlots.comparison_pairplot()
-	seabornPlots.catplot()
-	seabornPlots.pair_grid()
-	seabornPlots.facet_grid()
+	# seabornPlots.rugplot_1D()
+	# seabornPlots.displot_and_histplot()
+	# seabornPlots.kdeplot()
+	# seabornPlots.scatterplot()
+	# seabornPlots.categorical_countplot()
+	# seabornPlots.categorical_barplot()
+	# seabornPlots.categorical_boxplot()
+	# seabornPlots.categorical_violinplot()
+	# seabornPlots.categorical_swarmplot()
+	# seabornPlots.categorical_boxenplot()
+	# seabornPlots.comparison_jointplot()
+	# seabornPlots.comparison_pairplot()
+	# seabornPlots.catplot()
+	# seabornPlots.pair_grid()
+	# seabornPlots.facet_grid()
 	seabornPlots.heat_map()
 
 

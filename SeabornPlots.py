@@ -514,6 +514,7 @@ class SeabornPlots:
 		# Set colorbar based on value from dataset
 		sns.heatmap(rates,linewidth=0.5,annot=True,cmap='viridis',center=1)
 		plt.title("heatmap, same but center=1")
+		plt.show()
 
 		sns.clustermap(rates,col_cluster=False)
 		plt.title("clustermap with col_cluster=False")

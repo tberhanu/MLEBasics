@@ -6,7 +6,7 @@ import seaborn as sns
 
 class CategoricalData:
 	def __init__(self):
-		self.df = pd.read_csv("/Users/tess/Desktop/MLE2025/projects/UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_NO_Missing_Data.csv")
+		self.df = pd.read_csv("./UNZIP_FOR_NOTEBOOKS_FINAL/DATA/ALTERED/Ames_NO_Missing_Data.csv")
 
 	def convert_to_string(self, feature_name):
 		type1 = self.df.dtypes[feature_name]

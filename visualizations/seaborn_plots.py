@@ -20,9 +20,9 @@ class SeabornPlots:
 		- Matrix Plots like Heat Maps
 
 		"""
-		self.df = pd.read_csv("../../../../files/final_files/05-Seaborn/dm_office_sales.csv")
-		self.df2 = pd.read_csv("../../../../files/final_files/05-Seaborn/StudentsPerformance.csv")
-		self.df3 = pd.read_csv('../../../../files/final_files/05-Seaborn/country_table.csv')
+		self.df = pd.read_csv("../files/final_files/05-Seaborn/dm_office_sales.csv")
+		self.df2 = pd.read_csv("../files/final_files/05-Seaborn/StudentsPerformance.csv")
+		self.df3 = pd.read_csv("../files/final_files/05-Seaborn/country_table.csv")
 
 		# print(self.df)
 		# print(self.df.info())
@@ -112,6 +112,9 @@ class SeabornPlots:
 		sns.histplot(data=self.df,x='salary')
 		plt.title("histplot")
 		plt.show()
+
+		import pdb;pdb.set_trace()
+		
 		sns.histplot(data=self.df,x='salary',bins=10)
 		plt.title("histplot bins=10")
 		plt.show()
@@ -535,22 +538,22 @@ class SeabornPlots:
 
 if __name__ == "__main__":
 	seabornPlots = SeabornPlots()
-	seabornPlots.rugplot_1D()
+	# seabornPlots.rugplot_1D()
 	seabornPlots.displot_and_histplot()
-	seabornPlots.kdeplot()
-	seabornPlots.scatterplot()
-	seabornPlots.categorical_countplot()
-	seabornPlots.categorical_barplot()
-	seabornPlots.categorical_boxplot()
-	seabornPlots.categorical_violinplot()
-	seabornPlots.categorical_swarmplot()
-	seabornPlots.categorical_boxenplot()
-	seabornPlots.comparison_jointplot()
-	seabornPlots.comparison_pairplot()
-	seabornPlots.catplot()
-	seabornPlots.pair_grid()
-	seabornPlots.facet_grid()
-	seabornPlots.heat_map()
+	# seabornPlots.kdeplot()
+	# seabornPlots.scatterplot()
+	# seabornPlots.categorical_countplot()
+	# seabornPlots.categorical_barplot()
+	# seabornPlots.categorical_boxplot()
+	# seabornPlots.categorical_violinplot()
+	# seabornPlots.categorical_swarmplot()
+	# seabornPlots.categorical_boxenplot()
+	# seabornPlots.comparison_jointplot()
+	# seabornPlots.comparison_pairplot()
+	# seabornPlots.catplot()
+	# seabornPlots.pair_grid()
+	# seabornPlots.facet_grid()
+	# seabornPlots.heat_map()
 
 
 
